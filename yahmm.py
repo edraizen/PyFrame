@@ -1945,15 +1945,15 @@ class Model(object):
                 self.v[index + 1, l] = float("-inf")
 
                 # Find condition if state is a higher order Markov model
-                if hasattr(self.states[l].distribution, "order") and self.states[l].distribution.order > 0:
+                if hasattr(self.states[l].distribution, "order") and 
+                   self.states[l].distribution.order > 0:
                     condition = ""
                     order = self.states[l].distribution.order
                     if index < order:
+                        #Account for chracters that do not have enough sequence 
+                        #before to create the condition. Most likely unnesary
                         condition += "="*(order-index)
                         condition += sequence[:index+1]
-                    elif len(sequence)-index < order:
-                        condition = sequence[index-order:index+1]
-                        condition += "="*(len(sequence)-index+1)
                     else:
                         condition = sequence[index-order:index+1]
                     stateLogProb = self.states[l].distribution.log_probability(condition)
